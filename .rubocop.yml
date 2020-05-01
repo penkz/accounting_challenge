@@ -1,0 +1,4 @@
+AllCops:
+  StyleGuideBaseURL: https://rubystyle.guide
+Layout/LineLength:
+  Max: 120
