@@ -7,4 +7,8 @@ RSpec.describe Account, type: :model do
     it { should validate_presence_of :name }
     it { should validate_uniqueness_of :id }
   end
+
+  describe 'associations' do
+    it { should have_many :transactions }
+  end
 end
