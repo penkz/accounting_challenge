@@ -1,4 +1,15 @@
 AllCops:
   StyleGuideBaseURL: https://rubystyle.guide
+  Exclude:
+    - 'db/**'
+    - 'config/**/*'
+    - 'script/**/*'
 Layout/LineLength:
   Max: 120
+Metrics/BlockLength:
+  Exclude:
+    - 'Rakefile'
+    - '**/*.rake'
+    - 'spec/**/*.rb'
+Documentation:
+  Enabled: false
