@@ -9,6 +9,7 @@ module Api
       def create
         if @outcome.success?
           @resource = @outcome.result
+          @jwt = JsonWebToken.encode({ id: @resource.to_param, name: @resource.name })
           render :create, status: :created
         else
           render json: { errors: @outcome.errors.message }, status: :unprocessable_entity

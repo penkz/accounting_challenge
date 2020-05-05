@@ -23,7 +23,11 @@ RSpec.describe('Create Account', type: :request) do
     end
 
     let(:success_response) do
-      { 'id' => Account.last.to_param }
+      account = Account.last
+      {
+        'id' => account.to_param,
+        'auth_token' => JsonWebToken.encode({ id: account.to_param, name: account.name })
+      }
     end
 
     let(:invalid_response) do
