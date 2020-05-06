@@ -8,8 +8,8 @@ RSpec.describe Transaction, type: :model do
   end
 
   describe 'enums' do
-    it 'has type enum' do
-      expect(described_class.new).to define_enum_for(:type).with_values(withdraw: 0, deposit: 1)
+    it 'has kind enum' do
+      expect(described_class.new).to define_enum_for(:kind).with_values(withdraw: 0, deposit: 1)
     end
   end
 end

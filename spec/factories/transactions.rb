@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :transaction do
-    type { 1 }
+    kind { 1 }
     association :account
   end
 end

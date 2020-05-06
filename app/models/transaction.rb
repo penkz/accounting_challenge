@@ -3,5 +3,5 @@
 class Transaction < ApplicationRecord
   belongs_to :account
 
-  enum type: %i[withdraw deposit]
+  enum kind: %i[withdraw deposit]
 end
