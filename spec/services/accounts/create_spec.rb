@@ -41,7 +41,7 @@ RSpec.describe Accounts::Create, type: :service do
       end
     end
 
-    context 'when params is invalid' do
+    context 'when params are invalid' do
       it 'does not save the account' do
         expect { described_class.run(invalid_params) }.to change { Account.count }.by(0)
       end
@@ -49,8 +49,8 @@ RSpec.describe Accounts::Create, type: :service do
 
     context 'when the name is missing' do
       it 'returns the error message' do
-        outcome = described_class.run(invalid_params)
-        expect(outcome.errors.message[:name]).to match(/Name can't be blank/)
+        expect { described_class.run!(invalid_params) }.to raise_error(Mutations::ValidationException,
+                                                                       /Name can't be blank/)
       end
     end
 
@@ -58,8 +58,8 @@ RSpec.describe Accounts::Create, type: :service do
       it 'returns the error message' do
         account = FactoryBot.create(:account)
         valid_params[:id] = account.to_param
-        outcome = described_class.run(valid_params)
-        expect(outcome.errors.message[:id]).to match(/An account with ID: \d+ already exists/)
+        expect { described_class.run!(valid_params) }.to raise_error(Mutations::ValidationException,
+                                                                     /An account with ID: \d+ already exists/)
       end
     end
   end

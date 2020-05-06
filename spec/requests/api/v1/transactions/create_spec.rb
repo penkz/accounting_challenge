@@ -31,7 +31,7 @@ RSpec.describe('Create Transaction', type: :request) do
 
       it 'process the transaction' do
         post api_v1_transactions_path, params: valid_attributes
-        expect(json_response['message']).to match /The transfer was successfully processed/
+        expect(json_response['message']).to match(/The transfer was successfully processed/)
       end
     end
 

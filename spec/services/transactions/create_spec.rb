@@ -47,30 +47,34 @@ RSpec.describe Transactions::Create, type: :service do
         expect(destination_account.total_balance).to eq(1500.00)
       end
 
-      it 'returns and error message' do
-        outcome = described_class.run(valid_params, amount: 2000.01)
-        expect(outcome.errors.message[:source_account_id]).to match /Account has insufficient funds./
+      it 'raises a validation error' do
+        expect { described_class.run!(valid_params, amount: 2000.01) }.to(
+          raise_error(Mutations::ValidationException, /Account has insufficient funds./)
+        )
       end
     end
 
     context 'when the source account is missing' do
-      it 'does not execute the transfer' do
-        outcome = described_class.run(valid_params, source_account_id: nil)
-        expect(outcome).not_to be_success
+      it 'raises a validation error' do
+        expect { described_class.run!(valid_params, source_account_id: nil) }.to(
+          raise_error(Mutations::ValidationException, /Source Account ID can't be nil/)
+        )
       end
     end
 
     context 'when the destination account is missing' do
-      it 'does not execute the transfer' do
-        outcome = described_class.run(valid_params, destination_account_id: nil)
-        expect(outcome).not_to be_success
+      it 'raises a validation error' do
+        expect { described_class.run!(valid_params, destination_account_id: nil) }.to(
+          raise_error(Mutations::ValidationException, /Destination Account ID can't be nil/)
+        )
       end
     end
 
     context 'when the amount is missing' do
       it 'does not execute the transfer' do
-        outcome = described_class.run(valid_params, amount: nil)
-        expect(outcome).not_to be_success
+        expect { described_class.run!(valid_params, amount: nil) }.to(
+          raise_error(Mutations::ValidationException, /Amount can't be nil/)
+        )
       end
     end
   end
