@@ -16,6 +16,10 @@ module Api
         end
       end
 
+      def show
+        @account = Account.find(params[:id])
+      end
+
       private
 
       def create_account
