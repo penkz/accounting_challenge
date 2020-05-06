@@ -4,7 +4,7 @@ module Api
   module V1
     class AccountsController < ApplicationController
       before_action :create_account, only: [:create]
-      before_action :authenticate, except: [:create]
+      before_action :authenticate, except: %i[create show]
 
       def create
         if @outcome.success?
@@ -17,7 +17,7 @@ module Api
       end
 
       def show
-        @account = Account.find(params[:id])
+        @resource = Accounts::Show.run!(id: params[:id])
       end
 
       private

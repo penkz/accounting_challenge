@@ -9,7 +9,7 @@ module Accounts
     def execute
       {
         id: id,
-        balance: account.total_balance
+        balance: account.total_balance.to_f
       }
     end
 
