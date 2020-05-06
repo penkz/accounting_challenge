@@ -4,7 +4,7 @@ module Api
   module V1
     class AccountsController < ApplicationController
       before_action :create_account, only: [:create]
-      before_action :authenticate, except: %i[create show]
+      before_action :authenticate, except: %i[create]
 
       def create
         if @outcome.success?

@@ -3,6 +3,8 @@
 module Api
   module V1
     class TransactionsController < ApplicationController
+      before_action :authenticate
+
       def create
         outcome = Transactions::Create.run(
           source_account_id: transaction_params[:source_account_id],
