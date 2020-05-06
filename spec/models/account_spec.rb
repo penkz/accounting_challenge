@@ -18,6 +18,7 @@ RSpec.describe Account, type: :model do
     it 'returns the total balance for the account' do
       account.deposit(100.00)
       account.withdraw(200.50)
+
       expect(account.total_balance).to eq 899.50
     end
   end
@@ -30,6 +31,14 @@ RSpec.describe Account, type: :model do
       expect(account.transactions.deposit.last.amount).to eq 250.0
       expect(account.transactions.last).to be_deposit
     end
+
+    context 'when the amount is negative' do
+      let(:account) { FactoryBot.create(:account, balance: 1000.0) }
+
+      it 'raises an exception' do
+        expect { account.deposit(-1250.0) }.to raise_error ActiveRecord::Rollback
+      end
+    end
   end
 
   describe '#withdraw' do
@@ -39,6 +48,22 @@ RSpec.describe Account, type: :model do
     it 'creates a new withdraw transaction for the account' do
       expect(account.transactions.withdraw.last.amount).to eq 250.0
       expect(account.transactions.last).to be_withdraw
+    end
+
+    context 'when the account does not have a sufficient balance' do
+      let(:account) { FactoryBot.create(:account, balance: 1000.0) }
+
+      it 'raises an exception' do
+        expect { account.withdraw(1250.0) }.to raise_error ActiveRecord::Rollback
+      end
+    end
+
+    context 'when the amount is negative' do
+      let(:account) { FactoryBot.create(:account, balance: 1000.0) }
+
+      it 'raises an exception' do
+        expect { account.withdraw(-1250.0) }.to raise_error ActiveRecord::Rollback
+      end
     end
   end
 end

@@ -13,10 +13,14 @@ class Account < ApplicationRecord
   end
 
   def deposit(amount)
+    raise ActiveRecord::Rollback if amount.negative?
+
     transactions.deposit.create(amount: amount)
   end
 
   def withdraw(amount)
+    raise ActiveRecord::Rollback if amount.negative? || amount > total_balance
+
     transactions.withdraw.create(amount: amount)
   end
 end
